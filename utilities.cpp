@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "utilities.h"
 
 using namespace std;
@@ -51,4 +52,39 @@ pred[i] dans le plus court chemin.
 void mooredijkstra(int *c[], int d[], int n, int s)
 {
 	// A faire
+	int pere[n];
+	vector<int> C_barre;
+
+	for(int i=0; i<n-1; i++) C_barre[i] = i+1;
+	d[0] = 0;
+	for(int i=0; i<n-1; i++) d[i] = -1;
+	for(int i=0; i<n-1; i++) pere[i] = 0;
+	int j = 0;
+	for(int l=0; l<n-1; l++){
+		for(int i=0; i<n-1; i++){
+			if(appartient(C_barre,i) && c[j][i] != 0){
+				if(d[j] + c[i][j] < d[i])
+				{
+					d[i] = d[j] + c[j][i];
+					pere[i] = j;
+				}
+			}
+		}
+		int argmin ;
+			for(int j=0; j<n; j++) if(appartient(C_barre, j)) {
+				argmin = j;
+				break;
+			}
+		// Recherche de C_barre, de l'indice j de plus petite valeur d[i]
+		for(int j=0; j<n; j++) if(d[j] < d[argmin]) argmin = j;
+
+		// Suppression de l'indice j de la liste C_barre
+		C_barre.erase()
+
+	}
+}
+
+bool appartient(int T[], int x){
+	for(int i=0; i < T.size(); i++) if(T[n] == x) return true;
+		return false;
 }
