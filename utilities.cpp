@@ -1,8 +1,8 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include "utilities.h"
+#include <limits.h>
 
 using namespace std;
 
@@ -37,7 +37,16 @@ void affichage(int d[], int n)
 	cout << d[n-1] << endl << endl;		
 }
 
+bool appartient(int T[], int x, int n){
+	for(int i=0; i < n; i++) if(T[i] == x) return true;
+		return false;
+}
 
+int argmin(int T[], int n){
+	int argmin = 0;
+	for(int j=1; j < n; j++) if(T[j] < T[argmin]) argmin = j;
+	return argmin;
+}
 
 /****************************************/
 /* Objectif : Algorithme de calcul des plus courts
@@ -52,39 +61,37 @@ pred[i] dans le plus court chemin.
 void mooredijkstra(int *c[], int d[], int n, int s)
 {
 	// A faire
-	int pere[n];
-	vector<int> C_barre;
+	bool C_barre[n] = {};
+	for(int i=0; i<n; i++) C_barre[i] = true;
+	C_barre[s] = false;
+	for(int i=0; i<n; i++)
+		d[i] = INT_MAX;
+	d[s] = 0;
+	int pere[n] = {};
+	int j = s;
 
-	for(int i=0; i<n-1; i++) C_barre[i] = i+1;
-	d[0] = 0;
-	for(int i=0; i<n-1; i++) d[i] = -1;
-	for(int i=0; i<n-1; i++) pere[i] = 0;
-	int j = 0;
 	for(int l=0; l<n-1; l++){
-		for(int i=0; i<n-1; i++){
-			if(appartient(C_barre,i) && c[j][i] != 0){
-				if(d[j] + c[i][j] < d[i])
+		for(int i=0; i<n; i++){
+			if(C_barre[i] && c[j][i] != 0){
+				if(d[j] + c[j][i] < d[i])
 				{
+					cout << "d[j] + c[j][i] < d[i]" << endl;
 					d[i] = d[j] + c[j][i];
 					pere[i] = j;
 				}
 			}
 		}
-		int argmin ;
-			for(int j=0; j<n; j++) if(appartient(C_barre, j)) {
-				argmin = j;
-				break;
-			}
-		// Recherche de C_barre, de l'indice j de plus petite valeur d[i]
-		for(int j=0; j<n; j++) if(d[j] < d[argmin]) argmin = j;
-
-		// Suppression de l'indice j de la liste C_barre
-		C_barre.erase()
+	// Recherche de C_barre, de l'indice j de plus petite valeur d[i]
+	j = argmin(d, n);
+	// Suppression de l'indice j de la liste C_barre
+	C_barre[j] = false;
 
 	}
-}
 
-bool appartient(int T[], int x){
-	for(int i=0; i < T.size(); i++) if(T[n] == x) return true;
-		return false;
+	cout << "C_barre = " << endl;
+	for(int i = 0; i < n-1; i++)
+		cout << C_barre[i] << "\t";
+
+	cout << C_barre[n-1] << endl << endl;
+
 }
