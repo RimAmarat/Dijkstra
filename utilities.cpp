@@ -73,6 +73,7 @@ void mooredijkstra(int *c[], int d[], int n, int s)
 	for(int l=0; l<n-1; l++){
 		for(int i=0; i<n; i++){
 			if(C_barre[i] && c[j][i] != 0){
+				if(C_barre[i]) cout << C_barre[i] << endl;
 				if(d[j] + c[j][i] < d[i])
 				{
 					cout << "d[j] + c[j][i] < d[i]" << endl;
